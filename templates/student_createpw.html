@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Create Password (Student)
+{% endblock %}
+
+{% block main %}
+
+    <h3>Create Password (Student): You must create your own password in order to secure your account.</h3>
+    {% if error %}
+        <p style="color:red"><strong>Error:</strong> {{ error }}</p>
+    {% endif %}
+    <form action="/student_createpw" method="post">
+        <div class="mb-3">
+            <label for="password" class="form-label">Password (It should contain at least one letter and one number.)</label>
+            <input type="password" class="form-control" id="password" name="password" autocomplete="off">
+        </div>
+        <div class="mb-3">
+            <label for="confirm_pw" class="form-label">Confirm password</label>
+            <input type="password" class="form-control" id="confirm_pw" name="confirm_pw" autocomplete="off">
+        </div>
+        <button class="btn btn-primary" type="submit">Create password!</button>
+    </form>
+
+{% endblock %}

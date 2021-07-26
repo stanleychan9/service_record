@@ -1,0 +1,120 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    My Records
+{% endblock %}
+
+{% block main %}
+
+    <h3>My Internal Service Records</h3>
+    <h5>If you discover any mistakes in your record, please delete it before teachers' rejection.</h5>
+    <div class="table-responsive">
+        <table class="table table-sm table-striped">
+            <thead>
+                <tr>
+                    <th>Organisation / Activity</th>
+                    <th>Subject</th>
+                    <th>Post</th>
+                    <th>Hours</th>
+                    <th>Teacher</th>
+                    <th>Status</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for record in int_records %}
+                <tr>
+                    <td>{{ record[2] }}</td>
+                    {% if record[6] == None %}
+                        <td><i>N/A</i></td>
+                    {% else %}
+                        <td>{{ record[6] }}</td>
+                    {% endif %}
+                    <td>{{ record[3] }}</td>
+                    <td>{{ record[4] }}</td>
+                    <td>{{ record[7] }}</td>
+                    {% if record[5] == "pending" %}
+                        <td><strong>Pending</strong></td>
+                    {% elif record[5] == "deleted" %}
+                        <td><strong><span style="color:purple">Deleted</span></strong></td>
+                    {% elif record[5] == "rejected" %}
+                        <td><strong><span style="color:red">Rejected</span></strong></td>
+                    {% else %}<!-- When the status is "endorsed" -->
+                        <td><strong><span style="color:green">Endorsed</span></strong></td>
+                    {% endif %}
+                    {% if record[5] == "pending" %}
+                    <td><button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#int_record{{ record[0] }}" aria-expanded="false" aria-controls="#int_record{{ record[0] }}">Delete</td>
+                    {% else %}
+                    <td></td>
+                    {% endif %}
+                </tr>
+                <tr class="collapse" id="int_record{{ record[0] }}">
+                    <td colspan="7">
+                        <strong>Are you sure you want to delete this record?</strong>
+                        <form action="/myrecords" method="post">
+                            <input type="text" name="int_rec_id" value="{{ record[0] }}" style="display:none" readonly>
+                            <input type="text" name="status" value="deleted" style="display:none" readonly>
+                            <button class="btn btn-warning" type="submit">Yes, delete</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <hr>
+
+    <h3>My External Service Records</h3>
+    <h5>If you discover any mistakes in your record, please delete it before teachers' rejection.</h5>
+    <div class="table-responsive">
+        <table class="table table-sm table-striped">
+            <thead>
+                <tr>
+                    <th>Organisation / Activity</th>
+                    <th>Contact</th>
+                    <th>Post</th>
+                    <th>Hours</th>
+                    <th>Status</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for record in ext_records %}
+                <tr>
+                    <td>{{ record[2] }}</td>
+                    <td>{{ record[3] }}</td>
+                    <td>{{ record[4] }}</td>
+                    <td>{{ record[5] }}</td>
+                    {% if record[6] == "pending" %}
+                        <td><strong>Pending</strong></td>
+                    {% elif record[6] == "deleted" %}
+                        <td><strong><span style="color:purple">Deleted</span></strong></td>
+                    {% elif record[6] == "rejected" %}
+                        <td><strong><span style="color:red">Rejected</span></strong></td>
+                    {% else %}<!-- When the status is "endorsed" -->
+                        <td><strong><span style="color:green">Endorsed</span></strong></td>
+                    {% endif %}
+                    {% if record[6] == "pending" %}
+                    <td><button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#ext_record{{ record[0] }}" aria-expanded="false" aria-controls="#ext_record{{ record[0] }}">Delete</td>
+                    {% else %}
+                    <td></td>
+                    {% endif %}
+                </tr>
+                <tr class="collapse" id="ext_record{{ record[0] }}">
+                    <td colspan="7">
+                        <strong>Are you sure you want to delete this record?</strong>
+                        <form action="/myrecords" method="post">
+                            <input type="text" name="ext_rec_id" value="{{ record[0] }}" style="display:none" readonly>
+                            <input type="text" name="status" value="deleted" style="display:none" readonly>
+                            <button class="btn btn-warning" type="submit">Yes, delete</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <hr>
+    <p>Total number of hours endorsed at this moment: <strong>{{ total_hours }}</strong></p>
+
+{% endblock %}

@@ -1,0 +1,13 @@
+csv
+flask
+flask_mail
+flask_session
+functools
+io
+os
+random
+re
+sqlite3
+tempfile
+werkzeug.security
+werkzeug.wrappers

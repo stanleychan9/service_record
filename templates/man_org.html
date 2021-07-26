@@ -1,0 +1,104 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Manage Organisations
+{% endblock %}
+
+{% block main %}
+
+    <h3>Manage Organisations</h3>
+    {% if error %}
+        <p style="color:red"><strong>Error:</strong> {{ error }}</p>
+    {% endif %}
+    <div class="table-responsive">
+        <table class="table table-sm table-striped">
+            <thead>
+                <tr>
+                    <th>Organisation</th>
+                    <th>Teacher-in-charge</th>
+                    <th>Disabled</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for organisation in organisations %}
+                <tr>
+                    <form class="form-control" action="/man_org" method="post">
+                        <td>
+                            <input type="number" name="org_id" id="org_id" value="{{ organisation[0] }}" readonly style="display:none">
+                            {{ organisation[1] }}
+                        </td>
+                        <td>
+                            <select class="form-control" name="name">
+                                {% for teacher in teachers %}
+                                    {% if teacher[1] == organisation[2] %}
+                                        <option value="{{ teacher[2] }}" selected>{{ teacher[2] }}</option>
+                                    {% else %}
+                                        <option value="{{ teacher[2] }}">{{ teacher[2] }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </td>
+                        <td>
+                            <select class="form-control" name="disabled">
+                                <option value="1">Yes</option>
+                                <option value="0" selected>No</option>
+                            </select>
+                        </td>
+                        <td>
+                            <button class="btn btn-warning" type="submit" id="changebtn">Change</button>
+                        </td>
+                    </form>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <hr>
+    <h3>Disabled organisations</h3>
+    <div class="table-responsive">
+        <table class="table table-sm table-striped">
+            <thead>
+                <tr>
+                    <th>Organisation</th>
+                    <th>Teacher-in-charge</th>
+                    <th>Disabled</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for organisation in dis_organisations %}
+                <tr>
+                    <form class="form-control" action="/man_org" method="post">
+                        <td>
+                            <input type="number" name="org_id" id="org_id" value="{{ organisation[0] }}" readonly style="display:none">
+                            {{ organisation[1] }}
+                        </td>
+                        <td>
+                            <select class="form-control" name="name">
+                                {% for teacher in teachers %}
+                                    {% if teacher[1] == organisation[2] %}
+                                        <option value="{{ teacher[2] }}" selected>{{ teacher[2] }}</option>
+                                    {% else %}
+                                        <option value="{{ teacher[2] }}">{{ teacher[2] }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </td>
+                        <td>
+                            <select class="form-control" name="disabled">
+                                <option value="1" selected>Yes</option>
+                                <option value="0">No</option>
+                            </select>
+                        </td>
+                        <td>
+                            <button class="btn btn-warning" type="submit" id="changebtn">Change</button>
+                        </td>
+                    </form>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}

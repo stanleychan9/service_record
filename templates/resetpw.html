@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Reset Password
+{% endblock %}
+
+{% block main %}
+
+    <h3>Reset Password</h3>
+    <h5>Please enter the following information.</h5>
+
+    {% if error %}
+        <p style="color:red"><strong>Error:</strong> {{ error }}</p>
+    {% endif %}
+
+
+    <form action="/resetpw" method="post">
+        <div class="mb-3">
+            I am a ...
+            <select class="form-control" name="identity" id="identity">
+                <option selected disabled value>Select</option>
+                <option value="teacher">Teacher</option>
+                <option value="student">Student</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="identification" class="form-label">Login ID (Teacher) / Student Number (Student)</label>
+            <input type="text" class="form-control" id="identification" name="identification" autocomplete="off">
+        </div>
+        <div class="mb-3">
+            <label for="security_code" class="form-label">Security code <strong>(You should find it in the system's email to you.)</strong></label>
+            <input type="text" class="form-control" id="security_code" name="security_code" autocomplete="off">
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label">Password <strong>(Use only letter(s) and number(s). Use at least one letter and at least one number!)</strong></label>
+            <input type="password" class="form-control" id="password" name="password" autocomplete="off">
+        </div>
+        <div class="mb-3">
+            <label for="confirm_pw" class="form-label">Confirm password</label>
+            <input type="password" class="form-control" id="confirm_pw" name="confirm_pw" autocomplete="off">
+        </div>
+        <button class="btn btn-primary" type="submit">Proceed</button>
+    </form>
+
+{% endblock %}

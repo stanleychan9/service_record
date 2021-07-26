@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Records Overview
+{% endblock %}
+
+{% block main %}
+
+    <h3>Records Overview</h3>
+    <div class="table-responsive">
+        <table class="table table-sm table-striped">
+            <thead>
+                <tr>
+                    <th>Student No.</th>
+                    <th>Class</th>
+                    <th>Class No.</th>
+                    <th>Name</th>
+                    <th>Hours</th>
+                    <th>Award</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for student in students %}
+                <tr>
+                    <td>{{ student[0] }}</td>
+                    <td>{{ student[1] }}</td>
+                    <td>{{ student[2] }}</td>
+                    <td>{{ student[4] + " " + student[3] }}</td>
+                    <td>{{ student[7] }}</td>
+                    {% if student[8] == "Gold" %}
+                        <td><strong><span style="color:DarkGoldenRod">{{ student[8] }}</span></strong></td>
+                    {% elif student[8] == "Silver" %}
+                        <td><strong><span style="color:SlateGrey">{{ student[8] }}</span></strong></td>
+                    {% elif student[8] == "Bronze" %}
+                        <td><strong><span style="color:Sienna">{{ student[8] }}</span></strong></td>
+                    {% else %}
+                        <td><strong>{{ student[8] }}</strong></td>
+                    {% endif %}
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}

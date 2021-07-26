@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Teacher Log In
+{% endblock %}
+
+{% block main %}
+
+    <h3>Teacher Log In</h3>
+    <form action="/teacher_login" method="post">
+        <div class="mb-3">
+            <label for="login_id" class="form-label">Log ID</label>
+            <input type="text" class="form-control" id="login_id" name="login_id" autocomplete="off">
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label">Password (Use the six-digit personal code if it is your first time to sign in.)</label>
+            <input type="password" class="form-control" id="password" name="password" autocomplete="off">
+        </div>
+        <button class="btn btn-primary" type="submit">Log In!</button>
+    </form>
+    <hr>
+    <p><a href="#">Forget password? Click here! (Currently disabled)</a></p>
+
+{% endblock %}

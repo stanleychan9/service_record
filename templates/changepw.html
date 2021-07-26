@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Change Password
+{% endblock %}
+
+{% block main %}
+
+    <h3>Change Password</h3>
+    {% if error %}
+        <p style="color:red"><strong>Error:</strong> {{ error }}</p>
+    {% endif %}
+    <form action="/changepw" method="post">
+        <div class="mb-3">
+            <label for="old_password" class="form-label">Your old password</label>
+            <input type="password" class="form-control" id="old_password" name="old_password" autocomplete="off">
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label">New password (It should contain at least one letter and one number.)</label>
+            <input type="password" class="form-control" id="password" name="password" autocomplete="off">
+        </div>
+        <div class="mb-3">
+            <label for="confirm_pw" class="form-label">Confirm new password</label>
+            <input type="password" class="form-control" id="confirm_pw" name="confirm_pw" autocomplete="off">
+        </div>
+        <button class="btn btn-primary" type="submit">Change password!</button>
+    </form>
+
+{% endblock %}

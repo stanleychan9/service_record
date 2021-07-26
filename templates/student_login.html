@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Student Log In
+{% endblock %}
+
+{% block main %}
+
+    <h3>Student Log In</h3>
+    <form action="/student_login" method="post">
+        <div class="mb-3">
+            <label for="class_name" class="form-label">Class</label>
+            <select class="form-control" name="class_name" id="class_name">
+                <option disabled selected value>Select</option>
+                {% for i in levels %}
+                    {% for j in class_codes %}
+                        <option value="{{ i + j }}">{{ i + j }}</option>
+                    {% endfor %}
+                {% endfor %}
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="class_number" class="form-label">Class Number</label>
+            <select class="form-control" name="class_number" id="class_number">
+                <option disabled selected value>Select</option>
+                {% for k in range(1, 33) %}
+                    <option value="{{ k }}">{{ k }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label">Password (Use the six-digit personal code if it is your first time to sign in.)</label>
+            <input type="password" class="form-control" id="password" name="password" autocomplete="off">
+        </div>
+        <button class="btn btn-primary" type="submit">Log In!</button>
+    </form>
+    <hr>
+    <p><a href="#">Forget password? Click here! (Currently disabled)</a></p>
+
+{% endblock %}

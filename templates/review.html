@@ -1,0 +1,73 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Review Internal Records
+{% endblock %}
+
+{% block main %}
+
+    <h3>Review Internal Records</h3>
+    <h5>Please endorse or reject the records. You may also change the number of hours of each record if necessary.</h5>
+    {% if error %}
+        <p style="color:red"><strong>Error:</strong> {{ error }}</p>
+    {% endif %}
+    <div class="table-responsive">
+        <table class="table table-sm table-striped">
+            <thead>
+                <tr>
+                    <th>Student</th>
+                    <th>Class</th>
+                    <th>Class No.</th>
+                    <th>Organisation / Activity</th>
+                    <th>Subject</th>
+                    <th>Post</th>
+                    <th>Hours</th>
+                    <th>Status</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for record in for_review %}
+                <tr>
+                    <form class="form-control" action="/review" method="post">
+                        <td>{{ record[11] + " " + record[12] }}</td>
+                        <td>{{ record[9] }}</td>
+                        <td>{{ record[10] }}</td>
+                        <td>{{ record[3] }}</td>
+                        {% if record[7] == None %}
+                            <td><i>N/A</i></td>
+                        {% else %}
+                            <td>{{ record[7] }}</td>
+                        {% endif %}
+                        <td>{{ record[4] }}</td>
+                        <td><input type="number" name="hours" id="hours" value="{{ record[5] }}"></td>
+                        <td>
+                            <input type="number" name="int_rec_id" id="int_rec_id" value="{{ record[0] }}" readonly style="display:none">
+                            <input type="number" name="student_number" id="student_number" value="{{ record[1] }}" readonly style="display:none">
+                            <select class="form-control" name="status" id="status">
+                            {% if record[6] == "pending" %}
+                                <option disabled selected value>Pending</option>
+                                <option value="endorsed">Endorsed</option>
+                                <option value="rejected">Rejected</option>
+                            {% elif record[6] == "endorsed" %}
+                                <option disabled selected value>Endorsed</option>
+                                <option value="pending">Pending</option>
+                                <option value="rejected">Rejected</option>
+                            {% else %}<!-- If the status is "rejected" -->
+                                <option disabled selected value>Rejected</option>
+                                <option value="pending">Pending</option>
+                                <option value="endorsed">Endorsed</option>
+                            {% endif %}
+                            </select>
+                        </td>
+                        <td>
+                            <button class="btn btn-warning" type="submit" id="changebtn">Change</button>
+                        </td>
+                    </form>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}

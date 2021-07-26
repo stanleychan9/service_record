@@ -1,0 +1,105 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Add Internal Record
+{% endblock %}
+
+{% block main %}
+
+    <h3>Add Internal Service Record</h3>
+    <h5>Enter your internal service record. If your record is a subject leader, you need to choose your subject teacher. If your record is a class post, please choose "Others" and choose your form teacher.</h5>
+    {% if error %}
+        <p style="color:red"><strong>Error:</strong> {{ error }}</p>
+    {% endif %}
+    <form action="/add_int_record" method="post">
+        <div class="mb-3">
+            <p>Organisation / Activity</p>
+            <!-- Calling the CheckOrg() function in JavaScript -->
+            <select class="form-control" name="org_name" onchange="CheckOrg(this.value)" required>
+                <option disabled selected value>Select</option>
+                <!-- "organisations" as a list of dict; "organisation" as one dict; "org_name" as the key in each dict
+                Ref: https://stackoverflow.com/questions/54978823/jinja2-loop-through-a-dictionary -->
+                {% for organisation in organisations %}
+                    <option value="{{ organisation[1] }}">{{ organisation[1] }}</option>
+                {% endfor %}
+                <option value="Subject Leader">Subject Leader</option>
+                <option value="Others">Others</option>
+            </select>
+        </div>
+        <div class="mb-3" id="others_div" style='display:none'>
+            <label for="others" class="form-label">Other organisation / activity: Please specify</label>
+            <input type="text" class="form-control" id="others" name="others" autocomplete="off">
+        </div>
+        <div class="mb-3" id="post_div" style='display:none'>
+            <label for="post" class="form-label">Post</label>
+            <input type="text" class="form-control" id="post" name="post" autocomplete="off">
+        </div>
+        <div class="mb-3" id="class_div" style='display:none'>
+            <label for="class_name" class="form-label">Class</label>
+            <select class="form-control" name="class_name" id="class_name">
+                <option disabled selected value>Select</option>
+                {% for i in levels %}
+                    {% for j in class_codes %}
+                        <option value="{{ i + j }}">{{ i + j }}</option>
+                    {% endfor %}
+                {% endfor %}
+            </select>
+        </div>
+        <div class="mb-3" id="subject_div" style='display:none;'>
+            <label for="subject" class="form-label">Subject</label>
+            <select class="form-control" name="subject" id="subject">
+                <option disabled selected value>Select</option>
+                {% for subject in subjects %}
+                    <option value="{{ subject }}">{{ subject }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="mb-3" id="teacher_div" style='display:none;'>
+            <label for="teacher" class="form-label">Responsible Teacher: Please specify</label>
+            <select class="form-control" name="teacher" id="teacher">
+                <option disabled selected value>Select</option>
+                {% for teacher in teachers %}
+                    <option value="{{ teacher[2] }}">{{ teacher[2] }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="mb-3" id="hours_div" style='display:none'>
+            <label for="hours" class="form-label">Number of Hours</label>
+            <input type="number" class="form-control" id="hours" name="hours" autocomplete="off">
+        </div>
+        <button class="btn btn-primary" type="submit">Add Record!</button>
+    </form>
+
+    <!-- JavaScript for displaying class and subject name when selecting "Subject Leader" as the organisation -->
+    <script>
+        function CheckOrg(org) {
+            var class_div = document.getElementById('class_div');
+            var subject_div = document.getElementById('subject_div');
+            var post_div = document.getElementById('post_div');
+            var hours_div = document.getElementById('hours_div');
+            if (org == 'Subject Leader') {
+                others_div.style.display = 'none';
+                teacher_div.style.display = 'block';
+                class_div.style.display = 'block';
+                subject_div.style.display = 'block';
+                post_div.style.display = 'none';
+                hours_div.style.display = 'block';
+            } else if (org == 'Others') {
+                others_div.style.display = 'block';
+                teacher_div.style.display = 'block';
+                class_div.style.display = 'none';
+                subject_div.style.display = 'none';
+                post_div.style.display = 'block';
+                hours_div.style.display = 'block';
+            } else {
+                others_div.style.display = 'none';
+                teacher_div.style.display = 'none';
+                class_div.style.display = 'none';
+                subject_div.style.display = 'none';
+                post_div.style.display = 'block';
+                hours_div.style.display = 'block';
+            }
+        }
+    </script>
+
+{% endblock %}
